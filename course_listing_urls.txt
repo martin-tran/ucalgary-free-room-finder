@@ -1,0 +1,9 @@
+http://www.ucalgary.ca/cpsc_info/courses
+http://www.ucalgary.ca/chem_info/courses
+http://math.ucalgary.ca/math_unitis/courses
+http://phas.ucalgary.ca/phas_info/courses
+http://bio.ucalgary.ca/bio_info/courses
+http://geoscience.ucalgary.ca/geoscience_info/courses
+
+http://art.ucalgary.ca/courses
+http://commfilm.ucalgary/courses
