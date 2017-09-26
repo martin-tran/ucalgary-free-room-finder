@@ -15,11 +15,12 @@ RE_TIME = re.compile('(?P<days>[UMTWRFS]{1,3}) (?P<start>[0-9]{2}:[0-9]{2})'
 RE_ROOM = re.compile('(?P<building>[A-Z]{2,4}).*(?P<room_num>[0-9]{3})')
 
 def main():
-    dba = dbadmin2.DBAdmin()
+    dba = dbadmin.DBAdmin()
     dba.init_table()
     with open(URLFILE_SCI, 'r') as f:
         for line in [url.rstrip() for url in f]:
-            print('\nScrapping course listings from:', line)
+            print('\nScrapping course listings from:', line,
+                  '\nRoom\t\tDays\tStart\tEnd')
             soup = bs(request.urlopen(line), 'html.parser')
             tables = soup.find_all(id=TABLE_ID)
 
@@ -31,7 +32,7 @@ def main():
                             time = RE_TIME.search(tds[2].text)
                             place = RE_ROOM.search(tds[3].text)
                             if time and place:
-                                print('{}\t{}\t{}\t{}'
+                                print('{}\t\t{}\t{}\t{}'
                                       .format(place['building']+place['room_num'],
                                               time['days'],
                                               time['start'],
