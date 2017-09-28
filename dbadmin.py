@@ -1,9 +1,16 @@
 import sqlite3
 
-DAYS = {day:x for (x, day) in enumerate(['U', 'M', 'T', 'W', 'R', 'F', 'S'])}
+DAYS = {day:x for (x, day) in enumerate(['M', 'T', 'W', 'R', 'F', 'S', 'U'], start=1)}
 
 
 def humanize_time(time):
+    """Convert a time from the database's format to a human readable string.
+       
+       Args:
+         time::Int - The time to convert.
+       Returns:
+         _::String - The converted time.
+    """
     time_str = '{:04d}'.format(time, )
     if time_str[2:] == '25':
         return '{}:{}'.format(time_str[:2], 15)
@@ -86,10 +93,10 @@ class DBAdmin():
              room::String - The name of the room to add.
              days::String - The days of the week the room is being used. 
                Weeks start on Sunday.
-             start::Int - The time the room starts being used. Check the README for 
-               details on the format.
-             end::Int - The time the room is done being used.  Check the README for 
-               details on the format.
+             start::String - The time the room starts being used in 24 hour format.
+               Only times in increments of 15 minutes from the hour are accepted.
+             end::String - The time the room stops being used in 24 hour format.
+               Only times in increments of 15 minutes from the hour are accepted.
         """
         if not self.c.execute('SELECT EXISTS (SELECT 1 FROM rooms '
                               'WHERE room="{}" LIMIT 1)'
@@ -119,3 +126,35 @@ class DBAdmin():
             times.append((time[0], time[0]+25))
         return [(humanize_time(x), humanize_time(y)) for
                 (x, y) in _consolidate_times(times)]
+
+    def find_room(self, day, start=0, end=2400):
+        """Returns the rooms that are available between start and end.
+
+           Args:
+             day::String - The day of the week the room must be free. Weeks start on Sunday.
+             start::String - The time the room starts being free used in 24 hour format.
+               Only times in increments of 15 minutes from the hour are accepted.
+             end::String - The time the room must be free until in 24 hour format.
+               Only times in increments of 15 minutes from the hour are accepted.
+           Returns:
+             rooms_joined::{String:[(Int, Int)]} - A dictionary mapping rooms to the 
+               times they are free to use.
+        """
+        rooms, rooms_joined = {}, {}
+        dehu_start, dehu_end = dehumanize_time(start), dehumanize_time(end)
+        for room, time in self.c.execute('SELECT room, time FROM rooms WHERE day = {} AND '
+                                         'time >= {} AND time <= {} AND taken = 0 '
+                                         'ORDER BY room, time'
+                                         .format(DAYS[day], dehu_start, dehu_end)):
+            if room not in rooms:
+                rooms[room] = [(time, time+25)]
+            else:
+                rooms[room].append((time, time+25))
+
+        for room, times in rooms.items():
+            consolidated_times = _consolidate_times(times)
+            for time_range in consolidated_times:
+                if time_range[0] <= dehu_start and time_range[1] >= dehu_end:
+                    rooms_joined[room] = consolidated_times
+                    break
+        return rooms_joined
