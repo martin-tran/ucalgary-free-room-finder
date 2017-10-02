@@ -3,12 +3,12 @@ http://slllc.ucalgary.ca/courses
 http://antharky.ucalgary.ca/courses
 http://art.ucalgary.ca/courses
 http://clare.ucalgary.ca/courses
-http://commfilm.ucalgary/courses
+http://commfilm.ucalgary.ca/courses
 http://econ.ucalgary.ca/courses
 http://english.ucalgary.ca/courses
 http://geog.ucalgary.ca/courses
 http://hist.ucalgary.ca/courses
 http://phil.ucalgary.ca/courses
 http://poli.ucalgary.ca/courses
-http://pysch.ucalgary.ca/courses
+http://psych.ucalgary.ca/courses
 http://soci.ucalgary.ca/courses

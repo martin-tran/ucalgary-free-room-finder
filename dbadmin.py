@@ -50,6 +50,7 @@ def _consolidate_times(times):
          joined_times::[(Int, Int)] - A list of consolidated times.
     """    
     joined_times = []
+    if not times: return joined_times
     start, end = times[0]
     for i in range(1, len(times)):
         if end != times[i][0]:
