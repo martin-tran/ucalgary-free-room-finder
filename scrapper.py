@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import re
 import dbadmin
 
@@ -7,9 +5,6 @@ from urllib import request
 from bs4 import BeautifulSoup as bs
 
 
-URLFILE_SCI = 'course_listing_urls_sci.txt'
-URLFILE_ART = 'course_listing_urls_arts.txt'
-URLFILE_HAS = 'course_listing_urls_haskayne.txt'
 TABLE_ID = re.compile('uofc-table-[0-9]{1,3}')
 TABLE_CLASS = [['uofc-table'], ['uofc-table', 'has-details']]
 RE_TIME = re.compile('(?P<days>[UMTWRFS]{1,3}) (?P<start>[0-9]{2}:[0-9]{2})'
@@ -30,7 +25,8 @@ class Scrapper():
         self.dba.conn.close()
 
     def scrap(self, faculty_name, faculty_url, faculty_func):
-        print('===============SCRAPPING {} COURSES==============='.format(faculty_name,))
+        print('===============SCRAPPING {} COURSES==============='.format(
+            faculty_name,))
         with open(faculty_url, 'r') as f:
            for line in [url.rstrip() for url in f]:
                 print('\nScrapping course listings from:', line,
@@ -72,14 +68,3 @@ class Scrapper():
                               time['days'],
                               time['start'],
                               time['end'])
-
-def main():
-    with Scrapper() as scrapper:
-        faculties = [('SCIENCE', URLFILE_SCI, scrapper._scrap_sci),
-                     ('ARTS', URLFILE_ART, scrapper._scrap_art)]
-        for faculty in faculties:
-            scrapper.scrap(*faculty)
-
-            
-if __name__ == '__main__':
-    main()
