@@ -40,7 +40,7 @@ def dehumanize_time(time):
     return int(time[:2] + '00')
 
 
-def _consolidate_times(times):
+def consolidate_times(times):
     """Consolidates contiguous time intervals for a list of times.
        
        Args:
@@ -65,16 +65,16 @@ def _consolidate_times(times):
 class DBAdmin():
 
     def __init__(self):
-        self.conn = sqlite3.connect('room_data.db')
-        self.c = self.conn.cursor()
+        self._conn = sqlite3.connect('room_data.db')
+        self._c = self._conn.cursor()
 
     @property
     def conn(self):
-        return self.conn
+        return self._conn
 
     @property
     def c(self):
-        return self.c
+        return self._c
     
     def init_table(self):
         self.conn.execute('CREATE TABLE IF NOT EXISTS rooms('
@@ -97,7 +97,7 @@ class DBAdmin():
 
     def add_time(self, room, days, start, end):
         """Add a time a room is being used.
-
+;
            Args:
              room::String - The name of the room to add.
              days::String - The days of the week the room is being used. 
@@ -134,9 +134,9 @@ class DBAdmin():
                                    .format(room.upper(), DAYS[day])):
             times.append((time[0], time[0]+25))
         return [(humanize_time(x), humanize_time(y)) for
-                (x, y) in _consolidate_times(times)]
+                (x, y) in consolidate_times(times)]
 
-    def find_room(self, day, start=0, end=2400):
+    def find_room(self, day, start='00:00', end='24:00'):
         """Returns the rooms that are available between start and end.
 
            Args:
@@ -161,7 +161,7 @@ class DBAdmin():
                 rooms[room].append((time, time+25))
 
         for room, times in rooms.items():
-            consolidated_times = _consolidate_times(times)
+            consolidated_times = consolidate_times(times)
             for time_range in consolidated_times:
                 if time_range[0] <= dehu_start and time_range[1] >= dehu_end:
                     rooms_joined[room] = consolidated_times

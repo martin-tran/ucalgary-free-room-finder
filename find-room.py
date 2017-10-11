@@ -11,7 +11,6 @@ DAYS = {x:day for (x, day) in enumerate(['U', 'M', 'T', 'W', 'R', 'F', 'S'], sta
 URLFILE_SCI = 'course_listing_urls_sci.txt'
 URLFILE_ART = 'course_listing_urls_arts.txt'
 URLFILE_HAS = 'course_listing_urls_haskayne.txt'
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 parser = argparse.ArgumentParser()
