@@ -18,6 +18,8 @@ parser = argparse.ArgumentParser()
 action = parser.add_mutually_exclusive_group()
 parser.add_argument('-U', '--update', help='scrap the department websites\' '+
                     'course listings to update the database', action='store_true')
+parser.add_argument('-R', '--remove', help='remove the current database if it exists',
+                    action='store_true')
 action.add_argument('-f', '--find', help='find a free room given the time and day',
                     action='store_true')
 action.add_argument('-c', '--check', help='check if a specific room is free ' +
@@ -36,6 +38,14 @@ args = parser.parse_args()
 
 def main():
     admin = dbadmin.DBAdmin()
+
+    if args.remove:
+        if os.path.isfile('room_data.db'):
+            confirm = input('Are you sure you want to remove the database? (y/n) ')
+            if confirm == 'y':
+                os.remove('room_data.db')
+        else:
+            print('No database found.')
     
     if args.update:
         confirm = input('This operation could take very long. '

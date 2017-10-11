@@ -68,6 +68,14 @@ class DBAdmin():
         self.conn = sqlite3.connect('room_data.db')
         self.c = self.conn.cursor()
 
+    @property
+    def conn(self):
+        return self.conn
+
+    @property
+    def c(self):
+        return self.c
+    
     def init_table(self):
         self.conn.execute('CREATE TABLE IF NOT EXISTS rooms('
                           'room TEXT NOT NULL, '
@@ -82,8 +90,8 @@ class DBAdmin():
              room::String - The name of the room to add. Should be in the
                             format [A-Z]{2-3}[0-9]{2-3}, eg, MS160.
         """
-        for i in range(0, 2400+1, 25):
-            timeslots = [(room.upper(), d, i, 0) for d in range(7)]
+        for i in range(0, 2400, 25):
+            timeslots = [(room.upper(), d, i, 0) for d in range(1, 8)]
             self.c.executemany('INSERT INTO rooms VALUES (?,?,?,?)', (timeslots))
         self.conn.commit()
 
@@ -93,7 +101,7 @@ class DBAdmin():
            Args:
              room::String - The name of the room to add.
              days::String - The days of the week the room is being used. 
-               Weeks start on Sunday.
+               Weeks start on Monday.
              start::String - The time the room starts being used in 24 hour format.
                Only times in increments of 15 minutes from the hour are accepted.
              end::String - The time the room stops being used in 24 hour format.
@@ -106,8 +114,8 @@ class DBAdmin():
         dehu_start, dehu_end = dehumanize_time(start), dehumanize_time(end)
         for day in days:
             for i in range(dehu_start, dehu_end+1, 25):
-                self.c.execute('''UPDATE rooms SET taken = 1 WHERE 
-                                  room = "{}" AND day = {} AND time = {}'''
+                self.c.execute('UPDATE rooms SET taken = 1 WHERE '
+                               'room = "{}" AND day = {} AND time = {}'
                                .format(room.upper(), DAYS[day], i))
         self.conn.commit()
 
@@ -123,7 +131,7 @@ class DBAdmin():
         times = []
         for time in self.c.execute('SELECT time FROM rooms WHERE room '
                                    '= "{}" AND day = {} AND taken = 0 ORDER BY time'
-                              .format(room.upper(), DAYS[day])):
+                                   .format(room.upper(), DAYS[day])):
             times.append((time[0], time[0]+25))
         return [(humanize_time(x), humanize_time(y)) for
                 (x, y) in _consolidate_times(times)]
@@ -132,7 +140,7 @@ class DBAdmin():
         """Returns the rooms that are available between start and end.
 
            Args:
-             day::String - The day of the week the room must be free. Weeks start on Sunday.
+             day::String - The day of the week the room must be free. Weeks start on Monday.
              start::String - The time the room starts being free used in 24 hour format.
                Only times in increments of 15 minutes from the hour are accepted.
              end::String - The time the room must be free until in 24 hour format.

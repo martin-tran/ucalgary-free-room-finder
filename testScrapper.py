@@ -5,6 +5,7 @@ from unittest.mock import call
 from unittest.mock import patch
 from bs4 import BeautifulSoup as bs
 
+
 class TestScrapper(unittest.TestCase):
     
     def setUp(self):
