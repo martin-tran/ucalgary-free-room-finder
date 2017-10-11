@@ -1,0 +1,26 @@
+<table id="uofc-table-2" class="uofc-table"><tbody>
+<tr class="" style="background-color: #ffdddd">
+<td style="width:1em;padding:1px 0 1px 9px"></td>
+<td style="width:5em;padding-left:3px">LEC 1</td>
+<td style="width:11em">T 14:00 - 15:50<br>
+</td>
+<td style="width:6em">
+<a href="http://ucalgary.ca/map/interactive/?Building=TRA&amp;Room=102" id="thicklink_7" class="thickbox">TRA 102</a><br>
+</td>
+<td style="width:16em"><a href="/profiles/travis-hatt">Travis Hatt</a></td>
+<td style="width:100px;text-align:right;"></td>
+<td style="width:70px"><a href="/manageprofile//sites/scpa.ucalgary.ca.manageprofile/files/unitis/courses/DRAM225/F2017/LEC1/DRAM225-F2017-LEC1-outline.pdf" class="course-outline">Outline</a></td>
+</tr>
+<tr class="" style="background-color: #ffdddd">
+<td style="width:1em;padding:1px 0 1px 9px"></td>
+<td style="width:5em;padding-left:3px">LAB 1</td>
+<td style="width:11em">R 14:00 - 15:50<br>
+</td>
+<td style="width:6em">
+<a href="http://ucalgary.ca/map/interactive/?Building=TRA&amp;Room=102" id="thicklink_8" class="thickbox">TRA 102</a><br>
+</td>
+<td style="width:16em"><a href="/profiles/travis-hatt">Travis Hatt</a></td>
+<td style="width:100px;text-align:right;"></td>
+<td style="width:70px"></td>
+</tr>
+</tbody></table>
