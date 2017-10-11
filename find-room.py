@@ -28,7 +28,7 @@ parser.add_argument('-e', '--end_time', help='the end of the time the room ' +
                     'must be free', default='24:00')
 parser.add_argument('-d', '--days', help='the days to search for input as a '+
                     'single string in the format [MTWRFSU]',
-                    default=DAYS[date.today().day])
+                    default=DAYS[date.today().isoweekday()])
 parser.add_argument('-r', '--room', help='the room name to query in the format ' +
                     '[A-Z]{2,4}[0-9]{3}')
 args = parser.parse_args()
@@ -38,11 +38,14 @@ def main():
     admin = dbadmin.DBAdmin()
     
     if args.update:
-        with scrapper.Scrapper() as a_scrapper:
-            faculties = [('SCIENCE', URLFILE_SCI, a_scrapper._scrap_sci),
-                         ('ARTS', URLFILE_ART, a_scrapper._scrap_art)]
-            for faculty in faculties:
-                a_scrapper.scrap(*faculty)
+        confirm = input('This operation could take very long. '
+                        'Are you sure you want to update the database? (y/n) ')
+        if confirm == 'y':
+            with scrapper.Scrapper() as a_scrapper:
+                faculties = [('SCIENCE', URLFILE_SCI, a_scrapper._scrap_sci),
+                             ('ARTS', URLFILE_ART, a_scrapper._scrap_art)]
+                for faculty in faculties:
+                    a_scrapper.scrap(*faculty)
 
     if args.find:
         for day in args.days:
