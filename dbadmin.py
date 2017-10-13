@@ -81,7 +81,8 @@ class DBAdmin():
                           'room TEXT NOT NULL, '
                           'day INT, '
                           'time INT, '
-                          'taken INT DEFAULT 0)')
+                          'taken INT DEFAULT 0, '
+                          'UNIQUE (room, day, time, taken))')
 
     def add_room(self, room):
         """Add a room to the database. Defaults all times as free.
@@ -132,6 +133,7 @@ class DBAdmin():
         for time in self.c.execute('SELECT time FROM rooms WHERE room '
                                    '= "{}" AND day = {} AND taken = 0 ORDER BY time'
                                    .format(room.upper(), DAYS[day])):
+            
             times.append((time[0], time[0]+25))
         return [(humanize_time(x), humanize_time(y)) for
                 (x, y) in consolidate_times(times)]

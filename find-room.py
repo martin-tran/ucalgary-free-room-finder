@@ -7,7 +7,7 @@ import scrapper
 
 from datetime import date
 
-DAYS = {x:day for (x, day) in enumerate(['U', 'M', 'T', 'W', 'R', 'F', 'S'], start=1)}
+DAYS = {x:day for (x, day) in enumerate(['M', 'T', 'W', 'R', 'F', 'S', 'U'], start=1)}
 URLFILE_SCI = 'course_listing_urls_sci.txt'
 URLFILE_ART = 'course_listing_urls_arts.txt'
 URLFILE_HAS = 'course_listing_urls_haskayne.txt'
