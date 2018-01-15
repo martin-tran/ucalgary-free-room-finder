@@ -58,7 +58,10 @@ def main():
 
     if args.find:
         for day in args.days:
-            print(admin.find_room(args.days, args.start_time, args.end_time))
+            for k, v in admin.find_room(args.days,
+                                        args.start_time,
+                                        args.end_time).items():
+                print('{}: {}-{}'.format(k, v[0][0], v[0][1]))
 
     if args.check:
         for day in args.days:
