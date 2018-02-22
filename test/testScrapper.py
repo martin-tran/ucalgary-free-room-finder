@@ -1,5 +1,5 @@
 import unittest
-import scrapper
+from src import scrapper
 
 from unittest.mock import call
 from unittest.mock import patch

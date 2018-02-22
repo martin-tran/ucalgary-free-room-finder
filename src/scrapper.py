@@ -1,5 +1,5 @@
 import re
-import dbadmin
+from src import dbadmin
 
 from urllib import request
 from bs4 import BeautifulSoup as bs

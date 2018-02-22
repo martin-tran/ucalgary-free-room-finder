@@ -1,5 +1,5 @@
 import unittest
-import dbadmin
+from src import dbadmin
 
 from unittest.mock import call
 from unittest.mock import patch

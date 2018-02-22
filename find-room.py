@@ -2,15 +2,15 @@
 
 import argparse
 import os
-import dbadmin
-import scrapper
+from src import dbadmin
+from src import scrapper
 
 from datetime import date
 
 DAYS = {x:day for (x, day) in enumerate(['M', 'T', 'W', 'R', 'F', 'S', 'U'], start=1)}
-URLFILE_SCI = 'course_listing_urls_sci.txt'
-URLFILE_ART = 'course_listing_urls_arts.txt'
-URLFILE_HAS = 'course_listing_urls_haskayne.txt'
+URLFILE_SCI = 'data/course_listing_urls_sci.txt'
+URLFILE_ART = 'data/course_listing_urls_arts.txt'
+URLFILE_HAS = 'data/course_listing_urls_haskayne.txt'
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 parser = argparse.ArgumentParser()
