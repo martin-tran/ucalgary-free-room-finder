@@ -1,4 +1,6 @@
 import re
+import ssl
+import urllib
 from src import dbadmin
 
 from urllib import request
@@ -17,7 +19,7 @@ class Scrapper():
     def __init__(self):
         self.dba = dbadmin.DBAdmin()
         self.dba.init_table()
-        
+
     def __enter__(self):
         return self
 
@@ -31,7 +33,8 @@ class Scrapper():
            for line in [url.rstrip() for url in f]:
                 print('\nScrapping course listings from:', line,
                       '\nRoom\t\tDays\tStart\tEnd')
-                soup = bs(request.urlopen(line), 'html.parser')
+                ssl._create_default_https_context = ssl._create_unverified_context
+                soup = bs(urllib.request.urlopen(line), 'html.parser')
                 tables = soup.find_all(id=TABLE_ID)
 
                 for table in tables:
@@ -39,8 +42,8 @@ class Scrapper():
                         for class_section in table.find_all('tr'):
                             if not class_section.find('div'):
                                 faculty_func(list(class_section.children))
-                                
-         
+
+
     def _scrap_sci(self, tds):
         time = RE_TIME.search(tds[2].text)
         place = RE_ROOM.search(tds[3].text)
@@ -54,10 +57,23 @@ class Scrapper():
                               time['days'],
                               time['start'],
                               time['end'])
-            
+
     def _scrap_art(self, tds):
         time = RE_TIME.search(tds[5].text)
         place = RE_ROOM.search(tds[7].text)
+        if time and place:
+            print('{}\t\t{}\t{}\t{}'
+                  .format(place['building']+place['room_num'],
+                          time['days'],
+                          time['start'],
+                          time['end']))
+            self.dba.add_time(place['building']+place['room_num'],
+                              time['days'],
+                              time['start'],
+                              time['end'])
+    def _scrap_haskayne(self, tds):
+        time = RE_TIME.search(tds[2].text)
+        place = RE_ROOM.search(tds[3].text)
         if time and place:
             print('{}\t\t{}\t{}\t{}'
                   .format(place['building']+place['room_num'],

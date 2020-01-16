@@ -45,14 +45,19 @@ def main():
                 os.remove('room_data.db')
         else:
             print('No database found.')
-    
+
     if args.update:
         confirm = input('This operation could take very long. '
                         'Are you sure you want to update the database? (y/n) ')
         if confirm == 'y':
             with scrapper.Scrapper() as a_scrapper:
                 faculties = [('SCIENCE', URLFILE_SCI, a_scrapper._scrap_sci),
-                             ('ARTS', URLFILE_ART, a_scrapper._scrap_art)]
+                             ('HASKAYNE', URLFILE_HAS, a_scrapper._scrap_haskayne)]
+                """
+                faculties = [('SCIENCE', URLFILE_SCI, a_scrapper._scrap_sci),
+                             ('ARTS', URLFILE_ART, a_scrapper._scrap_art),
+                             ('HASKAYNE', URLFILE_HAS, a_scrapper._scrap_haskayne)]
+                """
                 for faculty in faculties:
                     a_scrapper.scrap(*faculty)
 
@@ -67,6 +72,6 @@ def main():
         for day in args.days:
             print(admin.check_room(args.room, day))
 
-                  
+
 if __name__ == '__main__':
     main()
