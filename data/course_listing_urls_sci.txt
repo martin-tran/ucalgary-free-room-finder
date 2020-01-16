@@ -4,3 +4,8 @@ http://math.ucalgary.ca/math_unitis/courses
 http://phas.ucalgary.ca/phas_info/courses
 http://bio.ucalgary.ca/bio_info/courses
 http://geoscience.ucalgary.ca/geoscience_info/courses
+http://contacts.ucalgary.ca/info/enel/courses
+http://contacts.ucalgary.ca/info/engo/courses
+http://contacts.ucalgary.ca/info/phas/courses
+http://contacts.ucalgary.ca/info/chem/courses
+http://contacts.ucalgary.ca/info/geos/courses
